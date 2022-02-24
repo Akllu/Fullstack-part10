@@ -10,14 +10,14 @@ class AuthStorage {
     const rawAccessToken = await AsyncStorage.getItem(
       `${this.namespace}:loggedUser`,
     );
-    return rawAccessToken ? JSON.parse(rawAccessToken) : undefined;
+    return rawAccessToken ? JSON.parse(rawAccessToken) : [];
   }
 
   async setAccessToken(accessToken) {
     // Add the access token to the storage
     await AsyncStorage.setItem(
       `${this.namespace}:loggedUser`,
-      JSON.stringify(accessToken),
+      JSON.stringify(accessToken)
     );
   }
 
