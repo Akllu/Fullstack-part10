@@ -1,4 +1,5 @@
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, Pressable } from 'react-native';
+import * as Linking from 'expo-linking';
 import theme from '../theme';
 import Text from './Text';
 
@@ -35,6 +36,19 @@ const styles = StyleSheet.create({
   countItemContainer: {
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  button: {
+    backgroundColor: theme.colors.primary,
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 15,
+    marginTop: 5,
+    width: '90%',
+    alignSelf: 'center',
+  },
+  buttonText: {
+    color: '#ffffff',
+    textAlign: 'center',
   },
 });
 
@@ -86,9 +100,9 @@ const CountItem = ({ count, name}) => {
   );
 };
 
-const RepositoryItem = ({ item }) => {
+const RepositoryItem = ({ item, showSingle }) => {
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="repositoryItem">
       <View style={styles.infoContainer}>
         <AuthorItem avatarUrl={item.ownerAvatarUrl} />
         <InfoItem fullName={item.fullName} description={item.description} language={item.language} />
@@ -99,6 +113,11 @@ const RepositoryItem = ({ item }) => {
         <CountItem count={item.reviewCount} name={'Reviews'} />
         <CountItem count={item.ratingAverage} name={'Rating'} />
       </View>
+      {showSingle && (
+        <Pressable style={styles.button} onPress={() => Linking.openURL(item.url)}>
+          <Text style={styles.buttonText} fontWeight={'bold'}>Open in GitHub</Text>
+        </Pressable>
+      )}
     </View>
   );
 };
