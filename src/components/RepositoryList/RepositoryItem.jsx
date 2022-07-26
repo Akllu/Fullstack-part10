@@ -1,11 +1,13 @@
 import { View, StyleSheet, Image, Pressable } from 'react-native';
 import * as Linking from 'expo-linking';
-import theme from '../theme';
-import Text from './Text';
+
+import theme from '../../theme';
+import Text from '../Text';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ffffff',
+    marginBottom: 10,
   },
   authorContainer: {
     justifyContent: 'center',
