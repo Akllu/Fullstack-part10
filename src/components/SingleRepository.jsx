@@ -9,11 +9,18 @@ import Text from './Text';
 
 const SingleRepository = () => {
   const params = useParams();
-  const { repository, loading } = useRepository(params.id);
+  const { repository, loading, fetchMore } = useRepository({
+    repositoryId: params.id,
+    first: 9
+  });
 
   const reviewNodes = repository
   ? repository.reviews.edges.map((edge) => edge.node)
   : [];
+
+  const onEndReach = () => {
+    fetchMore();
+  };
 
   return (
     <View>
@@ -21,9 +28,12 @@ const SingleRepository = () => {
         ? <FlatList
           data={reviewNodes}
           ItemSeparatorComponent={ItemSeparator}
+          ListFooterComponent={<View style={{ marginBottom: 100 }}/>}
           renderItem={({ item }) => <ReviewItem review={item} />}
           keyExtractor={({ id }) => id }
           ListHeaderComponent={() => <RepositoryItem item={repository} showSingle={true}/>}
+          onEndReached={onEndReach}
+          onEndReachedThreshold={0.5}
           />
         : <Text fontSize={'subheading'}>Loading...</Text>
       }

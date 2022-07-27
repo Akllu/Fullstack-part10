@@ -10,8 +10,16 @@ const RepositoryList = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [debounceQuery] = useDebounce(searchQuery, 500);
 
-  const { repositories, loading } = useRepositories(sortOption, debounceQuery);
+  const { repositories, loading, fetchMore } = useRepositories({
+    first: 8,
+    sortOption,
+    debounceQuery
+  });
   const navigate = useNavigate();
+
+  const onEndReach = () => {
+    fetchMore();
+  };
   
   return (
     <RepositoryListContainer
@@ -22,6 +30,7 @@ const RepositoryList = () => {
       setSortOption={setSortOption}
       searchQuery={searchQuery}
       setSearchQuery={setSearchQuery}
+      onEndReach={onEndReach}
     />
   );
 };
